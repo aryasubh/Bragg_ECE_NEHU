@@ -4,7 +4,7 @@
 #Copyright 2014 Lumerical Solutions
 ###############################
 
-DESIGN PARAMETERS
+# DESIGN PARAMETERS
 ###############################
 thick_Si = 0.22e-6;
 thick_BOX = 2e-6;
