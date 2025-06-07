@@ -4,11 +4,11 @@
 #Copyright 2014 Lumerical Solutions
 ###############################
 
-#DESIGN PARAMETERS
+DESIGN PARAMETERS
 ###############################
 thick_Si = 0.22e-6;
 thick_BOX = 2e-6;
-Width_ridge = 0.56e-6; 		# Waveguide Width
+Width_ridge = 0.5e-6; 		# Waveguide Width
 ##editing from here.....................
 Delta_W = 50e-9; 		# Corrugation width
 L_pd = 324e-9; 			# Grating period
@@ -26,8 +26,45 @@ materials;
 
 # Oxide Substrate 
 addrect;
-set('x min,-L_ex); set('x max',L-gt+L_ex)
-set('y', 0e-6); set('y span', W_ox);
-set('z min', -thick_BOX); set ('z max', -thick_Si/2);
-set'material' , material_Box);
-set('name','oxide');
+set (’x min’,-L_ex); set(’x max’,L_gt+L_ex);
+set (’y’, 0e-6); set(’y span’, W_ox);
+set (’z min’, -thick_BOX); set (’z max’, -thick_Si/2);
+set (’material’ , material_BOX);
+set (’name’,’oxide’);
+# Input Waveguide
+addrect;
+set (’x min’, -L_ex); set (’x max’, 0);
+set (’y’, 0); set (’y span’ , width_ridge);
+set ( ’z’, 0); set(’z span’, thick_Si);
+set (’material’, material_Si);
+set (’name’, ’input_wg’);
+# Bragg Grating
+addrect;
+set (’x min’, 0); set (’xmax’,L_pd/2);
+set (’y’,0); set (’y span’, width_ridge+Delta_W);
+set (’z’,0); set (’z span’, thick_Si);
+set (’material’, material_Si);
+set (’name’, ’grt_big’);
+addrect;
+set (’x min’, L_pd/2); set (’x max’, L_pd);
+set (’y’, 0); set(’y span’, width_ridge-Delta_W);
+set (’z’, 0); set(’z span’, thick_Si);
+set (’material’, material_Si);
+set (’name’, ’grt_small’);
+selectpartial (’grt’);
+addtogroup(’grt_cell’);
+select(’grt_cell’);
+redrawoff;
+for (i=1: N_gt-1) {
+ copy (L_pd);
+}
+selectpartial (’grt_cell’);
+addtogroup (’bragg’);
+redrawon;
+# Output WG
+addrect;
+set (’x min’,L_gt); set(’x_max’, L_gt+L_ex);
+set (’y’, 0); set (’y span’ , width_ridge);
+set (’z’ , 0); set (’z span’, thick_Si);
+set (’material’, material_Si);
+set (’name’,’output_wg’);
