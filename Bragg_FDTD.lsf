@@ -68,3 +68,26 @@ set (’y’, 0); set (’y span’ , width_ridge);
 set (’z’ , 0); set (’z span’, thick_Si);
 set (’material’, material_Si);
 set (’name’,’output_wg’);
+# SIMULATION SETUP
+#######################################
+lambda_min = 1.5e-6;
+lambda_max = 1.6e-6;
+freq_points = 101;
+sim_time = 6000e-15;
+Mesh_level = 2;
+mesh_override_dx = 40.5e-9; # needs to be an integer multiple of the period
+mesh_override_dy = 50e-9;
+mesh_override_dz = 20e-9;
+# FDTD
+addfdtd;
+set (’dimension’, ’3D’);
+set (’simulation time’,sim_time);
+set (’x min’, -L_ex+1e-6); set (’x max’ , L_gt+L_ex-1e-6);
+set (’y’, 0e-6); set (’y span’, 2e-6);
+set (’z’,0); set (’z span’,1.8e-6);
+set (’mesh accuracy’ , Mesh_level);
+set (’x min bc’, ’PML’); set (’x max bc’,’PML);
+set (’y min bc’, ’PML’); set (’y max bc’,’PML);
+set (’z min bc’, ’PML’); set (’z max bc’,’PML);
+# add symmetry planes to reduce the simulation time
+# set ( ’y min bc’,’Anti-Symmetric’); set(’force symmetric y mesh’,1);
